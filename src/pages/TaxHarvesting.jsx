@@ -4,6 +4,7 @@ import TaxCard from '../components/dashboard/TaxCard';
 import Navbar from '../components/shared/Navbar';
 import Holdings from '../components/ui/Holdings';
 import Header from '../components/dashboard/Header';
+import Skeleton from '../components/dashboard/Skeleton';
 
 const TaxHarvesting = () => {
     const [initialGains, setInitialGains] = useState(null);
@@ -70,7 +71,16 @@ const TaxHarvesting = () => {
         }
     };
 
-    if (loading) return <div className="p-10 text-center">Loading Data...</div>;
+    if (loading) {
+        return (
+            <div className="bg-gray-50 min-h-screen">
+                <Navbar />
+                <main className="max-w-7xl mx-auto p-4 md:p-8">
+                    <Skeleton />
+                </main>
+            </div>
+        )
+    }
 
     return (
         <div className="bg-gray-50 min-h-screen">
