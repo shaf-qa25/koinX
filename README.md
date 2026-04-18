@@ -47,12 +47,15 @@ Getting Started:-
 
 
 Clone the repo:
+
 git clone https://github.com/your-username/koinx-tax-harvesting.git
 
 
 Install dependencies:
-npm install
-Run the development server:
 
+npm install
+
+
+Run the development server:
 
 npm run dev
