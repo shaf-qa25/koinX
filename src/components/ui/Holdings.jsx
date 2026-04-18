@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import HoldingsTable from '../dashboard/HoldingsTable'
+import { useTax } from '../../hooks/TaxContext';
 
-const Holdings = ({ holdings, selectedCoins, toggleSelect, handleSelectAll }) => {
+const Holdings = () => {
+    const { holdings, selectedCoins, toggleSelect, handleSelectAll } = useTax();
     const [isExpanded, setIsExpanded] = useState(false);
     return (
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">

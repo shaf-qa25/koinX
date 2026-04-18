@@ -1,16 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/shared/Navbar';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import TaxHarvesting from './pages/TaxHarvesting';
+import NotFound from './pages/NotFound';
+import { TaxProvider } from './hooks/TaxContext';
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50">
+    <TaxProvider>
+      <Router>
         <Routes>
           <Route path="/" element={<TaxHarvesting />} />
+
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </TaxProvider>
   );
 }
+
 export default App;

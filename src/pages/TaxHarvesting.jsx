@@ -1,75 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, use } from 'react';
 import { fetchHoldings, fetchGains } from '../services/api';
 import TaxCard from '../components/dashboard/TaxCard';
 import Navbar from '../components/shared/Navbar';
 import Holdings from '../components/ui/Holdings';
 import Header from '../components/dashboard/Header';
 import Skeleton from '../components/dashboard/Skeleton';
+import { useTax } from '../hooks/TaxContext';
 
 const TaxHarvesting = () => {
-    const [initialGains, setInitialGains] = useState(null);
-    const [holdings, setHoldings] = useState([]);
-    const [selectedCoins, setSelectedCoins] = useState(new Set());
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        Promise.all([fetchGains(), fetchHoldings()]).then(([gains, coins]) => {
-            setInitialGains(gains.capitalGains);
-            setHoldings(coins);
-            setLoading(false);
-        });
-    }, []);
-
-    const postHarvestGains = useMemo(() => {
-        if (!initialGains) return null;
-
-        let updatedGains = {
-            stcg: { ...initialGains.stcg },
-            ltcg: { ...initialGains.ltcg }
-        };
-
-        selectedCoins.forEach(coinId => {
-            const coin = holdings.find(h => h.coin === coinId);
-            if (coin) {
-                if (coin.stcg.gain > 0) {
-                    updatedGains.stcg.profits += coin.stcg.gain;
-                } else {
-                    updatedGains.stcg.losses += Math.abs(coin.stcg.gain);
-                }
-
-                if (coin.ltcg.gain > 0) {
-                    updatedGains.ltcg.profits += coin.ltcg.gain;
-                } else {
-                    updatedGains.ltcg.losses += Math.abs(coin.ltcg.gain);
-                }
-            }
-        });
-
-        return updatedGains;
-    }, [selectedCoins, initialGains, holdings]);
-
-    const toggleSelect = (id) => {
-        const next = new Set(selectedCoins);
-        next.has(id) ? next.delete(id) : next.add(id);
-        setSelectedCoins(next);
-    };
-
-    const initialTotal = useMemo(() => {
-        if (!initialGains) return 0;
-        return (initialGains.stcg.profits - initialGains.stcg.losses) +
-            (initialGains.ltcg.profits - initialGains.ltcg.losses);
-    }, [initialGains]);
-
-
-    const handleSelectAll = () => {
-
-        if (selectedCoins.size === holdings.length) {
-            setSelectedCoins(new Set());
-        } else {
-            const allIds = holdings.map(h => h.coin);
-            setSelectedCoins(new Set(allIds));
-        }
-    };
+    const { loading, initialGains, postHarvestGains, initialTotal } = useTax();
 
     if (loading) {
         return (
@@ -105,12 +44,7 @@ const TaxHarvesting = () => {
                 </div>
 
 
-                <Holdings
-                    holdings={holdings}
-                    selectedCoins={selectedCoins}
-                    toggleSelect={toggleSelect}
-                    handleSelectAll={handleSelectAll}
-                />
+                <Holdings />
             </main>
         </div>
     );
