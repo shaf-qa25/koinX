@@ -48,7 +48,7 @@ Getting Started:-
 
 Clone the repo:
 
-git clone https://github.com/your-username/koinx-tax-harvesting.git
+git clone https://github.com/shaf-qa25/koinX.git
 
 
 Install dependencies:
