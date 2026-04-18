@@ -17,6 +17,8 @@ Context API – Centralized state management for seamless data flow across the d
 Lucide React – For clean, professional icons.
 
 ✨ Key Features
+
+
 Real-time Recalculation: The "After Harvesting" card dynamically updates as assets are selected, using a custom business logic engine.
 
 Advanced Sorting: Fully interactive table headers allowing users to sort by Asset, Amount, or Gains (STCG/LTCG).
